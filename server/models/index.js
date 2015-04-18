@@ -37,11 +37,27 @@ module.exports = {
         }
       })
     },
-    post: function (messageData, callback) {
-      db.query('INSERT INTO Users (userName) VALUES (' + db.escape(messageData.username) + ')', function(err, result) {
+    post: function (userData, callback) {
+      queryArgs = [userData.username, userData.password];
+      db.query('INSERT INTO Users (userName, password) VALUES (?,?)', queryArgs, function(err, result) {
         if(err) {
           console.log("Error trying to insert a message into the database");
         } else {
+          callback(result);
+        }
+      });
+    }
+  },
+
+  authenticate: {
+    post: function (userData, callback) {
+      queryArgs = [userData.username, userData.password];
+      console.log(queryArgs);
+      db.query('SELECT userName FROM Users WHERE userName=? AND password=?', queryArgs, function(err, result) {
+        if(err) {
+          console.log("Error trying to read a message from the database");
+        } else {
+          console.log(result);
           callback(result);
         }
       });

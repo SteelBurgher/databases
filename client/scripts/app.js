@@ -2,12 +2,26 @@
 app = {
 
     // server: 'https://api.parse.com/1/classes/chatterbox',
-    server: 'http://127.0.0.1:3000/classes/chatterbox',
+    server: 'http://127.0.0.1:3000/classes',
+
+    initLogin: function() {
+      console.log('in log in');
+
+      $('#loginForm').on('submit', app.handleLogin);
+      $('#signUp').on('submit', app.handleSignup);
+
+      app.$loginName = $('#usernameLogin');
+      app.$loginPassword = $('#passwordLogin');
+      app.$signUpName = $('#usernameSignUp');
+      app.$signUpPassword = $('#passwordSignUp');
+      app.$errorLogin = $('#errorLogin');
+      app.$errorSignUp = $('#errorSignUp');
+      app.$signUpSuccess = $('#signUpSuccess');
+
+    },
 
     init: function() {
       console.log('running chatterbox');
-      // Get username
-      app.username = window.location.search.substr(10);
 
       app.onscreenMessages = {};
       app.blockedUsers = ['BRETTSPENCER', 'Chuck Norris'];
@@ -17,9 +31,71 @@ app = {
 
 
       app.loadMsgs();
-      setInterval( app.loadMsgs.bind(app), 1000);
+      //setInterval( app.loadMsgs.bind(app), 1000);
 
       $('#send').on('submit', app.handleSubmit);
+    },
+
+    handleLogin: function(e){
+      e.preventDefault();
+      app.$errorLogin.text('');
+
+      if(app.$loginName.val().length > 0 && app.$loginPassword.val().length > 0) {
+        app.authenticate(app.$loginName.val(), app.$loginPassword.val());
+      } else {
+        app.$errorLogin.text(" Enter your username and password");
+      }
+    },
+
+    handleSignup: function(e){
+      e.preventDefault();
+      app.$errorSignUp.text('');
+      if(app.$signUpName.val().length > 0 && app.$signUpPassword.val().length > 0) {
+        app.signUp(app.$signUpName.val(), app.$signUpPassword.val());
+      } else {
+        app.$errorSignUp.text(" Create a new username and password");
+      }
+
+    },
+    
+    authenticate: function(username, password) {
+      app.startSpinner();
+      var userData = {username: username, password: password};
+      $.ajax({
+        type: 'POST',
+        url: app.server + '/authenticate',
+        data: JSON.stringify(userData),
+        contentType: 'application/json',
+        success: function(json){
+          app.$errorLogin.text('');
+          console.log('signed in');
+        },
+        error: function() {
+          app.$errorLogin.text('');
+          app.$errorLogin.text(" Invalid username or password.");
+        },
+        complete: function(){
+          app.stopSpinner();
+        }
+      });
+    },
+
+    signUp: function(username, password) {
+      app.startSpinner();
+      var userData = {username: username, password: password};
+      $.ajax({
+        type: 'POST',
+        url: app.server + '/users',
+        data: JSON.stringify(userData),
+        contentType: 'application/json',
+        success: function(json){
+          app.$errorSignUp.text('');
+          app.$signUpSuccess.text(" You've signed up! Log in above.");
+        },
+        complete: function(){
+          app.stopSpinner();
+        }
+      });
     },
 
     handleSubmit: function(e){
@@ -60,8 +136,7 @@ app = {
 
     loadMsgs: function(){
       $.ajax({
-        url: app.server,
-        data: { order: '-createdAt' },
+        url: app.server + '/messages',
         contentType: 'application/json',
         success: function(json){
           app.displayMessages(json.results);
@@ -76,7 +151,7 @@ app = {
       app.startSpinner();
       $.ajax({
         type: 'POST',
-        url: app.server,
+        url: app.server + '/messages',
         data: JSON.stringify(message),
         contentType: 'application/json',
         success: function(json){

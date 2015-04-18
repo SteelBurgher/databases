@@ -22,6 +22,16 @@ body {
     padding: 5px;
 }
 
+#errorSignUp, #errorLogin {
+    color: red;
+    font-size: .6em;
+}
+
+#signUpSuccess {
+    color: green;
+    font-size: .6em;
+}
+
 #main h1 span {
     font-style:italic;
 }

@@ -6,6 +6,9 @@ var utils = require('../utils.js');
 
 module.exports = {
   messages: {
+    options: function(req, res) {
+      utils.sendResponse(res, {});
+    },
     get: function (req, res) {
       models.messages.get(function(result) {
         utils.sendResponse(res, result);
@@ -20,6 +23,9 @@ module.exports = {
 
   users: {
     // Ditto as above
+    options: function(req, res) {
+      utils.sendResponse(res, {});
+    },
     get: function (req, res) {
       models.users.get(function(result) {
         utils.sendResponse(res, result);
@@ -28,6 +34,24 @@ module.exports = {
     post: function (req, res) {
       models.users.post(req.body, function(result) {
         utils.sendResponse(res, result, 201);
+      });
+    }
+  },
+
+  // a controller to handle authentication
+  authenticate: {
+    options: function(req, res) {
+      utils.sendResponse(res, {});
+    },
+    get: function (req, res) {
+    },
+    post: function (req, res) {
+      models.authenticate.post(req.body, function(result) {
+        if(result.length === 0) {
+          utils.sendResponse(res, {}, 404);
+        } else {
+          utils.sendResponse(res, {});
+        }
       });
     }
   }

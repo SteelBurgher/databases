@@ -8,23 +8,31 @@
     <script src="../bower_components/jquery/jquery.min.js"></script>
     <script src="../bower_components/underscore/underscore.js"></script>
     <!-- your scripts -->
-    <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
       <h1>chatter<em>box</em></h1>
-      <!-- Your HTML goes here! -->
-      <div class="spinner"><img src="images/spiffygif_46x46.gif"></div>
-      <form action="#" id="send" method="post">
-        <input type="text" name="message" id="message"/>
-        <input type="submit" name="submit" class="submit"/>
+      <h2>login<span id="errorLogin"></span></h2>
+      <form action="#" id="loginForm" method="get">
+        <label for='userNameLogin'>Username:</label>
+        <input type="text" name="username" id="usernameLogin"/>
+        <label for='passwordLogin'>Password:</label>
+        <input type="password" name="password" id="passwordLogin"/>
+        <input type="submit" name="login" class="login"/>
       </form>
-      <div id="chats"></div>
+      <h2>..or sign up<span id="errorSignUp"></span><span id="signUpSuccess"></span></h2>
+      <form action="#" id="signUp" method="post">
+        <label for='usernameSignUp'>Username:</label>
+        <input type="text" name="username" id="usernameSignUp"/>
+        <label for='passwordSignUp'>Password:</label>
+        <input type="password" name="password" id="passwordSignUp"/>
+        <input type="submit" name="login" class="login"/>
+      </form>
     </div>
     <script>
       $(function(){
-        app.init();
+        app.initLogin();
       });
     </script>
   </body>
