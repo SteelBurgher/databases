@@ -69,10 +69,10 @@ CREATE TABLE `Friendships` (
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `Messages` ADD FOREIGN KEY (userID) REFERENCES `Users` (`userID`);
-ALTER TABLE `Messages` ADD FOREIGN KEY (roomID) REFERENCES `Rooms` (`roomID`);
-ALTER TABLE `Friendships` ADD FOREIGN KEY (frienderID) REFERENCES `Users` (`userID`);
-ALTER TABLE `Friendships` ADD FOREIGN KEY (friendedID) REFERENCES `Users` (`userID`);
+-- ALTER TABLE `Messages` ADD FOREIGN KEY (userID) REFERENCES `Users` (`userID`);
+-- ALTER TABLE `Messages` ADD FOREIGN KEY (roomID) REFERENCES `Rooms` (`roomID`);
+-- ALTER TABLE `Friendships` ADD FOREIGN KEY (frienderID) REFERENCES `Users` (`userID`);
+-- ALTER TABLE `Friendships` ADD FOREIGN KEY (friendedID) REFERENCES `Users` (`userID`);
 
 
 /*  Execute this file from the command line by typing:
