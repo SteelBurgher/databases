@@ -16,7 +16,7 @@ module.exports = {
     }, // a function which produces all the messages
     post: function (messageData, callback) {
       db.query('INSERT INTO Messages (messageText) VALUES (' + 
-                 db.escape(messageData.message) + ')', function(err, result) {
+                 messageData.message + ')', function(err, result) {
         if(err) {
           console.log("Error when trying to insert a message into the database");
         } else {

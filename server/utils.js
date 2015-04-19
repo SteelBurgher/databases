@@ -6,9 +6,10 @@ var headers = {
   'Content-Type': "application/json"
 };
 
-exports.sendResponse = function(response, data, statusCode){
+exports.sendResponse = function(response, data, statusCode, test){
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
-  response.end(JSON.stringify(data));
+  if(!test) 
+    response.end(JSON.stringify(data));
 };
 

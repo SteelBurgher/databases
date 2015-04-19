@@ -15,5 +15,8 @@
   },
   "scripts": {
     "test": "mocha server/spec/server-spec.js; RES=$?; kill %1; exit $RES"
+  },
+  "devDependencies": {
+    "cors": "~2.5.3"
   }
 }

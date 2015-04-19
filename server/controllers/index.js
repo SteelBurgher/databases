@@ -2,7 +2,13 @@ var models = require('../models');
 var bluebird = require('bluebird');
 var utils = require('../utils.js');
 
-
+var headers = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "access-control-allow-headers": "content-type, accept",
+  "access-control-max-age": 10, // Seconds.
+  'Content-Type': "application/json"
+};
 
 module.exports = {
   messages: {
@@ -53,6 +59,27 @@ module.exports = {
           utils.sendResponse(res, {});
         }
       });
+    }
+  },
+
+  login: {
+    options: function(req, res) {
+      console.log("in options");
+      utils.sendResponse(res, {});
+    },
+    get: function(req, res){
+      res.sendFile('chatroom.html', {root: __dirname + '/../../client/'}, function(err) {
+        if(err) {
+          console.log(err);
+          res.status(err.status).end();
+        } else {
+          console.log("File sent");
+          res.end();
+        }
+      });
+    },
+    post: function (req, res) {
+     
     }
   }
 };

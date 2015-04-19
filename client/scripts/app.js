@@ -68,11 +68,26 @@ app = {
         contentType: 'application/json',
         success: function(json){
           app.$errorLogin.text('');
-          console.log('signed in');
+          app.login(username);
         },
         error: function() {
           app.$errorLogin.text('');
           app.$errorLogin.text(" Invalid username or password.");
+        },
+        complete: function(){
+          app.stopSpinner();
+        }
+      });
+    },
+
+    login: function(username) {
+      app.startSpinner();
+      $.ajax({
+        url: app.server + '/login',
+        contentType: 'application/json',
+        success: function(json){
+          console.log("success in client)");
+          app.displayMessages(json.results);
         },
         complete: function(){
           app.stopSpinner();
